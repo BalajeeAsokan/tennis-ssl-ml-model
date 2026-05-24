@@ -6,36 +6,6 @@ A beginner-friendly project that learns tennis shot representations **without an
 2. **Low-label fine-tuning** — train a classifier with only a handful of labels per class
 3. **Nearest-neighbor shot retrieval** — "find me shots that look like this one"
 
-## Project Structure
-
-```
-tennis_ssl/
-├── README.md
-├── requirements.txt
-├── configs/
-│   └── simclr_config.yaml          # hyperparameters
-├── data/
-│   ├── raw/                        # downloaded THETIS videos / scraped images
-│   ├── processed/                  # extracted frames, cropped players
-│   └── embeddings/                 # saved feature vectors after SSL training
-├── src/
-│   ├── __init__.py
-│   ├── data_prep.py                # extract frames from videos, build dataset
-│   ├── dataset.py                  # PyTorch Dataset with SimCLR augmentations
-│   ├── model.py                    # ResNet + projection head
-│   ├── train_simclr.py             # main SSL training loop
-│   ├── extract_embeddings.py       # get embeddings for all images
-│   ├── cluster_and_visualize.py    # UMAP + k-means + plots
-│   └── finetune_classifier.py      # optional: train linear classifier on top
-├── notebooks/
-│   └── 01_explore_augmentations.ipynb   # visualize what SimCLR sees
-├── models/                         # saved model weights
-└── outputs/
-    ├── plots/                      # UMAP visualizations
-    ├── logs/                       # training curves
-    └── checkpoints/                # intermediate checkpoints
-```
-
 ## Setup
 
 ```bash
@@ -105,17 +75,3 @@ python src\diagnose_ssl_features.py
 ```bash
 python src\predict_with_confidence.py --folder test_data_labeled --eval
 ```
-
-## What You'll Learn
-
-- How contrastive learning works (pull similar images together, push different apart)
-- How data augmentation shapes what representations learn
-- How to use a pretrained encoder for downstream tasks
-- How to visualize and interpret learned embeddings
-
-## Extensions After SimCLR Works
-
-1. Swap SimCLR → BYOL (~20 lines of code)
-2. Try MoCo, DINO, SwAV
-3. Fine-tune with 5/10/20/50 labels per class, plot accuracy curve
-4. Add ball tracking with TrackNet (separate project — see `extensions/`)
