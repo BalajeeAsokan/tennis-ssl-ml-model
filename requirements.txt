@@ -1,0 +1,31 @@
+# Core deep learning
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Self-supervised learning library — makes SimCLR trivial
+lightly>=1.5.0
+
+# Data handling
+numpy>=1.24.0
+pandas>=2.0.0
+Pillow>=10.0.0
+opencv-python>=4.8.0
+
+# Visualization & clustering
+matplotlib>=3.7.0
+seaborn>=0.12.0
+umap-learn>=0.5.4
+scikit-learn>=1.3.0
+
+# Utilities
+tqdm>=4.66.0
+pyyaml>=6.0
+tensorboard>=2.14.0   # optional: for training curves
+
+# Data acquisition (optional)
+icrawler>=0.6.7       # for scraping tennis images from Google/Bing
+yt-dlp>=2024.1.1      # for downloading YouTube tennis videos
+
+# Jupyter (optional but recommended)
+jupyter>=1.0.0
+ipykernel>=6.25.0
