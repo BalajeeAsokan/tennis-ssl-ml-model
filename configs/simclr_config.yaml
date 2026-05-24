@@ -1,0 +1,53 @@
+# SimCLR Configuration for Tennis SSL
+# Modify these values to experiment
+
+# --- Data ---
+data:
+  #image_dir: "data/processed"        # folder with tennis frames
+  #image_size: 224                     # standard for ResNet.
+  #batch_size: 128                     # lower if out of GPU memory (try 64, 32).
+  #num_workers: 2                      # data loading threads.
+
+  image_dir: "data/processed_rgb_only"    # use the smaller set - ~3600 sample images taken for training
+  image_size: 128                      # CHANGED from 224 - huge memory saver
+  batch_size: 32                      # CHANGED from 128 — biggest memory saver
+  num_workers: 4                        #  CHANGED from 4 — less RAM pressure on Windows
+
+# --- Model ---
+model:
+  backbone: "resnet18"                # resnet18 (fast) or resnet50 (better, slower)
+  projection_dim: 128                 # size of projection head output
+  hidden_dim: 512                     # projection head hidden layer
+
+# --- Training ---
+training:
+  #epochs: 100                         # 50-200 typical; more = better embeddings.
+  #learning_rate: 0.0006               # scales with batch_size; lightly default.
+  #warmup_epochs: 10
+  #save_every: 20                     # checkpoint frequency 
+
+  epochs: 50                         # CHANGED from 100 — smaller batches need more epochs but not 2x
+  learning_rate: 0.0003               # CHANGED from 0.0006 to lower LR for smaller batch
+  weight_decay: 0.00005
+  temperature: 0.5                    # SimCLR temperature (tau); try 0.1 or 0.5
+  warmup_epochs: 5                    # CHANGED from 10
+  save_every: 10                       # CHANGED from 20
+
+# --- Augmentations (the KEY to SimCLR!) ---
+# These define what the model learns to be INVARIANT to
+augmentations:
+  random_resized_crop: [0.2, 1.0]     # min/max crop scale
+  horizontal_flip: 0.5                # flip probability
+  color_jitter_strength: 0.5          # 0 = no color change, 1 = strong
+  color_jitter_prob: 0.8
+  grayscale_prob: 0.2
+  gaussian_blur_prob: 0.5
+  # NOTE: strong color jitter teaches model to ignore jersey color
+  #       strong crop teaches model to ignore zoom level
+
+# --- Output ---
+output:
+  model_dir: "models"
+  log_dir: "outputs/logs"
+  checkpoint_dir: "outputs/checkpoints"
+  seed: 42
